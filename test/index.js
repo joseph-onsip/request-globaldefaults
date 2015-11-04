@@ -1,7 +1,7 @@
 'use strict';
 
 var test = require('tape');
-var request = require('request');
+var nets = require('nets');
 var requestGlobalDefaults = require('../');
 
 test('defaulting/overriding a custom querystring', function (t) {
@@ -21,9 +21,12 @@ test('defaulting/overriding a custom querystring', function (t) {
     },
   };
 
-  requestGlobalDefaults(defaultOptions, request);
+  // The path used here should be `nets` result for require.resolve('request')
+  // This path can change based on your dependencies and npm version.
+  var innerRequest = require('nets/node_modules/request');
+  requestGlobalDefaults(defaultOptions, innerRequest);
 
-  request('https://httpbin.org/get', function (error, response, body) {
+  nets('https://httpbin.org/get', function (error, response, body) {
     if (error) {
       t.fail(error);
     }
@@ -32,7 +35,7 @@ test('defaulting/overriding a custom querystring', function (t) {
     }
   });
 
-  request(overrideOptions, function (error, response, body) {
+  nets(overrideOptions, function (error, response, body) {
     if (error) {
       t.fail(error);
     }
