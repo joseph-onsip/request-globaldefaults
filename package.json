@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/joseph-onsip/request-globaldefaults/issues"
   },
-  "homepage": "https://github.com/joseph-onsip/request-globaldefaults"
+  "homepage": "https://github.com/joseph-onsip/request-globaldefaults",
+  "dependencies": {
+    "extend": "^3.0.0"
+  }
 }
