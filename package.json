@@ -1,7 +1,7 @@
 {
   "name": "request-globaldefaults",
   "version": "1.0.0",
-  "description": "",
+  "description": "Set \"global\" defaults on `request`",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
