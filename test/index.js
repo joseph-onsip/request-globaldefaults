@@ -2,6 +2,7 @@
 
 var test = require('tape');
 var nets = require('nets');
+var iferr = require('iferr');
 var requestGlobalDefaults = require('../');
 
 test('defaulting/overriding a custom querystring', function (t) {
@@ -26,21 +27,11 @@ test('defaulting/overriding a custom querystring', function (t) {
   var innerRequest = require('nets/node_modules/request');
   requestGlobalDefaults(defaultOptions, innerRequest);
 
-  nets('https://httpbin.org/get', function (error, response, body) {
-    if (error) {
-      t.fail(error);
-    }
-    else {
-      t.equal(body.args['request-globaldefaults'], 'default value');
-    }
-  });
+  nets('https://httpbin.org/get', iferr(t.fail, function (response, body) {
+    t.equal(body.args['request-globaldefaults'], 'default value');
+  }));
 
-  nets(overrideOptions, function (error, response, body) {
-    if (error) {
-      t.fail(error);
-    }
-    else {
-      t.equal(body.args['request-globaldefaults'], 'override value');
-    }
-  });
+  nets(overrideOptions, iferr(t.fail, function (response, body) {
+    t.equal(body.args['request-globaldefaults'], 'override value');
+  }));
 });
